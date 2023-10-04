@@ -4,11 +4,6 @@ import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
 import 'package:todo_bloc/models/todo_entity/todo_entity.dart';
 import 'package:todo_bloc/screens/add_todo_screen.dart';
 
-const List<TodoEntity> todos = [
-  TodoEntity(id: '1', task: 'Todo #1', isComplete: false),
-  TodoEntity(id: '2', task: 'Todo #2', isComplete: false),
-];
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -119,7 +114,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Card _todosCard(
+  Widget _todosCard(
     BuildContext context,
     TodoEntity todo,
   ) {
@@ -131,40 +126,53 @@ class HomeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '#${todo.id}: ${todo.task}',
+              todo.task,
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            // BlocBuilder<TodosBloc, TodosState>(
-            //   builder: (context, state) {
-            //     return Row(
-            //       children: [
-            //         IconButton(
-            //           onPressed: () {
-            //             context.read<TodosBloc>().add(
-            //                   UpdateTodo(
-            //                     todo: todo.copyWith(isCompleted: true),
-            //                   ),
-            //                 );
-            //           },
-            //           icon: const Icon(Icons.add_task),
-            //         ),
-            //         IconButton(
-            //           onPressed: () {
-            //             context.read<TodosBloc>().add(
-            //                   DeleteTodo(
-            //                     todo: todo.copyWith(isCancelled: true),
-            //                   ),
-            //                 );
-            //           },
-            //           icon: const Icon(Icons.cancel),
-            //         ),
-            //       ],
-            //     );
-            //   },
-            // ),
+            BlocBuilder<TodoBloc, TodoState>(
+              builder: (context, state) {
+                return Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddTodoScreen(
+                              todo: todo,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.edit),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // context.read<TodoBloc>().add(
+                        //       UpdateTodo(
+                        //         todo: todo.copyWith(isCompleted: true),
+                        //       ),
+                        //     );
+                      },
+                      icon: const Icon(Icons.add_task),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // context.read<TodoBloc>().add(
+                        //       DeleteTodo(
+                        //         todo: todo.copyWith(isCancelled: true),
+                        //       ),
+                        //     );
+                      },
+                      icon: const Icon(Icons.cancel),
+                    ),
+                  ],
+                );
+              },
+            ),
           ],
         ),
       ),

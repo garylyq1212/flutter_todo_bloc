@@ -2,18 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
 import 'package:todo_bloc/models/todo_entity/todo_entity.dart';
+import 'package:uuid/uuid.dart';
 
 class AddTodoScreen extends StatelessWidget {
-  const AddTodoScreen({Key? key}) : super(key: key);
+  final TodoEntity? todo;
+
+  const AddTodoScreen({Key? key, this.todo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controllerId = TextEditingController();
+    // TextEditingController controllerId = TextEditingController();
     TextEditingController controllerTask = TextEditingController();
+
+    // controllerId.text = todo?.id ?? '';
+    controllerTask.text = todo?.task ?? '';
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('BloC Pattern: Add a To Do'),
+        title: todo != null
+            ? const Text('BloC Pattern: Edit a To Do')
+            : const Text('BloC Pattern: Add a To Do'),
       ),
       body: BlocBuilder<TodoBloc, TodoState>(
         builder: (context, state) {
@@ -28,22 +36,36 @@ class AddTodoScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
                   children: [
-                    _inputField('ID', controllerId),
+                    todo != null ? Text(todo!.id) : const SizedBox.shrink(),
                     _inputField('Task', controllerTask),
                     ElevatedButton(
                       onPressed: () {
-                        var todo = TodoEntity(
-                          id: controllerId.value.text,
-                          task: controllerTask.value.text,
-                          isComplete: false,
-                        );
-                        context.read<TodoBloc>().add(AddTodo(todo: todo));
+                        if (todo != null) {
+                          context.read<TodoBloc>().add(
+                                EditTodo(
+                                  todo: todo!.copyWith(
+                                    task: controllerTask.text,
+                                    isComplete: false,
+                                  ),
+                                ),
+                              );
+                        } else {
+                          var newTodo = TodoEntity(
+                            id: const Uuid().v4(),
+                            task: controllerTask.value.text,
+                            isComplete: false,
+                          );
+                          context.read<TodoBloc>().add(AddTodo(todo: newTodo));
+                        }
+
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
-                      child: const Text('Add To Do'),
+                      child: todo != null
+                          ? const Text('Edit Todo')
+                          : const Text('Add To Do'),
                     ),
                   ],
                 ),

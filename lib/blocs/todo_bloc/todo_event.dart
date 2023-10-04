@@ -24,3 +24,12 @@ final class AddTodo extends TodoEvent {
   @override
   List<Object> get props => [todo];
 }
+
+final class EditTodo extends TodoEvent {
+  final TodoEntity todo;
+
+  const EditTodo({required this.todo});
+
+  @override
+  List<Object> get props => [todo];
+}
