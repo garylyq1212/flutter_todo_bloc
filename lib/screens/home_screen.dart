@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
 import 'package:todo_bloc/models/todo_entity/todo_entity.dart';
 import 'package:todo_bloc/screens/add_todo_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Talker talker;
+
+  const HomeScreen({Key? key, required this.talker}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +16,19 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('BloC Pattern: To Dos'),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => TalkerScreen(
+                    talker: talker,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.document_scanner),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(
