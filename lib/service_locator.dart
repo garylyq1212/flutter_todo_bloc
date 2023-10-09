@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger.dart';
@@ -24,6 +25,8 @@ Future<void> registerDependencies() async {
   await Hive.initFlutter();
 
   getIt.registerSingleton<AppRouter>(AppRouter());
+
+  getIt.registerSingleton<Dio>(Dio());
 
   // Init Bloc & Repository
 }

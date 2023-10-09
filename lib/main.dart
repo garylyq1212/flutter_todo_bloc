@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
-import 'package:todo_bloc/common_widgets/base_widget.dart';
+import 'package:todo_bloc/presentation/common_widgets/base_widget.dart';
 import 'package:todo_bloc/data_source/models/todo/todo.dart';
 import 'package:todo_bloc/data_source/repository/todo_repository.dart';
 import 'package:todo_bloc/routes/app_router.dart';
