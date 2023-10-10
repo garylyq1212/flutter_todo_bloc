@@ -13,6 +13,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
 
   TodoBloc(this._todoRepository) : super(TodoLoading()) {
     on<GetTodos>((event, emit) async {
+      await Future.delayed(const Duration(seconds: 1));
       final todos = await _todoRepository.getTodoList();
       emit(TodoListLoaded(todoList: todos));
     });
@@ -28,26 +29,16 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       }
     });
     on<EditTodo>((event, emit) async {
-      await _todoRepository.editTodo(event.todo);
-      emit(EditTodoSuccess(todo: event.todo));
-
-      // final state = this.state;
-      // if (state is TodoListLoaded) {
-      //   for (var todo in state.todoList) {
-      //     if (todo.id == event.todo.id) {
-      //       await _todoRepository.editTodo(event.todo);
-      //       todo.copyWith(
-      //         task: event.todo.task,
-      //         isComplete: event.todo.isComplete,
-      //       );
-      //       emit(EditTodoSuccess(todo: todo));
-      //     }
-      //   }
-      // }
+      if (state is TodoListLoaded) {
+        await _todoRepository.editTodo(event.todo);
+        emit(TodoListLoaded(todoList: await _todoRepository.getTodoList()));
+      }
     });
     on<DeleteTodo>((event, emit) async {
-      await _todoRepository.deleteTodo(event.todo);
-      emit(DeleteTodoSuccess(todo: event.todo));
+      if (state is TodoListLoaded) {
+        await _todoRepository.deleteTodo(event.todo);
+        emit(TodoListLoaded(todoList: await _todoRepository.getTodoList()));
+      }
     });
   }
 }

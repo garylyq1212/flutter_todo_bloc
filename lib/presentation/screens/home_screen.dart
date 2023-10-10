@@ -63,12 +63,7 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
       //     }
       //   },
       // ),
-      body: BlocConsumer<TodoBloc, TodoState>(
-        listener: (BuildContext context, TodoState state) {
-          if (state is EditTodoSuccess || state is DeleteTodoSuccess) {
-            context.read<TodoBloc>().add(const GetTodos(todos: []));
-          }
-        },
+      body: BlocBuilder<TodoBloc, TodoState>(
         builder: (context, state) {
           if (state is TodoLoading) {
             return const Center(
