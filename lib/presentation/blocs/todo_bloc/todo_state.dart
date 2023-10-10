@@ -19,3 +19,21 @@ final class TodoListLoaded extends TodoState {
   @override
   List<Object> get props => [todoList];
 }
+
+final class EditTodoSuccess extends TodoState {
+  final TodoEntity todo;
+
+  const EditTodoSuccess({required this.todo});
+
+  @override
+  List<Object> get props => [todo];
+}
+
+final class DeleteTodoSuccess extends TodoState {
+  final TodoEntity todo;
+
+  const DeleteTodoSuccess({required this.todo});
+
+  @override
+  List<Object> get props => [todo];
+}

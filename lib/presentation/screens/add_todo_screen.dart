@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
 import 'package:todo_bloc/models/todo_entity/todo_entity.dart';
+import 'package:todo_bloc/presentation/blocs/todo_bloc/todo_bloc.dart';
+import 'package:todo_bloc/common_widgets/my_app_bar.dart';
 import 'package:uuid/uuid.dart';
 
 class AddTodoScreen extends StatelessWidget {
@@ -18,7 +19,7 @@ class AddTodoScreen extends StatelessWidget {
     controllerTask.text = todo?.task ?? '';
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: MyAppBar(
         title: todo != null
             ? const Text('BloC Pattern: Edit a To Do')
             : const Text('BloC Pattern: Add a To Do'),

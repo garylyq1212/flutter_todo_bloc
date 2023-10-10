@@ -1,8 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
 import 'package:todo_bloc/models/todo_entity/todo_entity.dart';
+import 'package:todo_bloc/presentation/blocs/todo_bloc/todo_bloc.dart';
+import 'package:todo_bloc/common_widgets/my_app_bar.dart';
 import 'package:todo_bloc/presentation/screens/add_todo_screen.dart';
 
 @RoutePage()
@@ -17,7 +18,7 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: MyAppBar(
         title: const Text('BloC Pattern: To Dos'),
         actions: [
           IconButton(
@@ -62,7 +63,12 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
       //     }
       //   },
       // ),
-      body: BlocBuilder<TodoBloc, TodoState>(
+      body: BlocConsumer<TodoBloc, TodoState>(
+        listener: (BuildContext context, TodoState state) {
+          if (state is EditTodoSuccess || state is DeleteTodoSuccess) {
+            context.read<TodoBloc>().add(const GetTodos(todos: []));
+          }
+        },
         builder: (context, state) {
           if (state is TodoLoading) {
             return const Center(
@@ -168,11 +174,11 @@ class HomeScreen extends StatelessWidget implements AutoRouteWrapper {
                     ),
                     IconButton(
                       onPressed: () {
-                        // context.read<TodoBloc>().add(
-                        //       DeleteTodo(
-                        //         todo: todo.copyWith(isCancelled: true),
-                        //       ),
-                        //     );
+                        context.read<TodoBloc>().add(
+                              DeleteTodo(
+                                todo: todo,
+                              ),
+                            );
                       },
                       icon: const Icon(Icons.cancel),
                     ),

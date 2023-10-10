@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo_bloc/data_source/models/todo/todo.dart';
+import 'package:todo_bloc/data/data_source/models/todo/todo.dart';
 
 class TodoEntity extends Equatable {
   final String id;

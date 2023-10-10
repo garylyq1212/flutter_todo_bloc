@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:todo_bloc/presentation/screens/home_screen.dart';
-import 'package:todo_bloc/presentation/common_widgets/base_widget.dart';
+import 'package:todo_bloc/common_widgets/base_widget.dart';
 
 part 'app_router.gr.dart';
 

@@ -5,10 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
-import 'package:todo_bloc/blocs/todo_bloc/todo_bloc.dart';
-import 'package:todo_bloc/presentation/common_widgets/base_widget.dart';
-import 'package:todo_bloc/data_source/models/todo/todo.dart';
-import 'package:todo_bloc/data_source/repository/todo_repository.dart';
+import 'package:todo_bloc/data/data_source/models/todo/todo.dart';
+import 'package:todo_bloc/data/data_source/repository/todo_repository.dart';
+import 'package:todo_bloc/presentation/blocs/todo_bloc/todo_bloc.dart';
 import 'package:todo_bloc/routes/app_router.dart';
 import 'package:todo_bloc/service_locator.dart';
 
@@ -23,7 +22,7 @@ void main() async {
 
       Bloc.observer = getIt.get<TalkerBlocObserver>();
 
-      Hive.registerAdapter(TodoAdapter());
+      Hive.registerAdapter<Todo>(TodoAdapter());
 
       WidgetsFlutterBinding.ensureInitialized();
 
@@ -66,7 +65,6 @@ class MyApp extends StatelessWidget {
               getIt.get<TalkerRouteObserver>(),
             ],
           ),
-          builder: (context, child) => BaseWidget(child: child),
         ),
       ),
     );
